@@ -31,8 +31,9 @@ def create_faiss_index(embeddings):
 
 # Step 5: Query Processing
 def find_similar_chunks(query, index, chunks, top_k=45):
-    query_embedding = model.encode([query], convert_to_tensor=False)
-    indices = index.search(query_embedding, top_k)[1]
+    import numpy as np
+    query_embedding = np.array([model.encode(query)])
+    distances, indices = index.search(query_embedding, top_k)
     return [chunks[i] for i in indices[0]]
 
 # Step 6: Use GPT-4 (or ChatGPT) to generate a response with streaming
