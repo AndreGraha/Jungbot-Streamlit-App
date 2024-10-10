@@ -32,14 +32,14 @@ def create_faiss_index(embeddings):
 # Step 5: Query Processing
 def find_similar_chunks(query, index, chunks, top_k=45):
     query_embedding = model.encode([query], convert_to_tensor=False)
-    distances, indices = index.search(query_embedding, top_k)
+    indices = index.search(query_embedding, top_k)[1]
     return [chunks[i] for i in indices[0]]
 
 # Step 6: Use GPT-4 (or ChatGPT) to generate a response with streaming
 
 def generate_response(retrieved_chunks, user_query):
     context = "".join(retrieved_chunks)
-    prompt = f"Carl Jung assistant. You answer questions using citations from the information provided in the context. In the context provided to you, there will be the page number and name of the work, include both in your citaion. You also answer from a variety of citations from the text provided. You are a Jungian expeort. based on the following context:{context}Answer the user's question: {user_query}"
+    prompt = f"Carl Jung assistant. You answer questions using citations from the information provided in the context. In the context provided to you, there will be the page number and name of the work, include both in your citaion. You are a Jungain expeort. based on the following context:{context}Answer the user's question: {user_query}"
     client = openai.OpenAI()
     client.api_key = os.getenv("OPENAI_API_KEY")
     stream = client.chat.completions.create(
