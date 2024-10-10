@@ -39,7 +39,7 @@ def find_similar_chunks(query, index, chunks, top_k=45):
     labels = np.empty((query_embedding.shape[0], top_k), dtype='int64')
 
     # Call search with all three arguments
-    index.search(query_embedding, distances, labels)
+    index.search(query_embedding, distances = distances, labels = labels)
 
     # Extract the indices (labels) of the nearest neighbors
     indices = labels[0]
