@@ -6,6 +6,7 @@ import os
 import warnings
 import streamlit as st
 import pickle
+import numpy as np
 
 # Step 2: Split the text into manageable chunks for embedding
 def split_text_into_chunks(text_data, chunk_size=500):
@@ -29,12 +30,12 @@ def create_faiss_index(embeddings):
     index.add(embeddings)
     return index
 
-# Step 5: Query Processing
 def find_similar_chunks(query, index, chunks, top_k=45):
-    import numpy as np
     query_embedding = np.array([model.encode(query)])
-    distances, indices = index.search(query_embedding.astype('float32'), k=top_k)
-    return [chunks[i] for i in indices[0]]
+    query_embedding = query_embedding.astype('float32')  # FAISS requires float32
+    distances, indices = index.search(query_embedding, top_k)  # Provide the number of neighbors to return
+    return [chunks[i] for i in indices[0]]  # Get the relevant chunks based on indices
+
 
 # Step 6: Use GPT-4 (or ChatGPT) to generate a response with streaming
 
