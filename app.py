@@ -5,7 +5,6 @@ import pickle
 import numpy as np
 from dotenv import load_dotenv
 from sentence_transformers import SentenceTransformer
-from langchain.vectorstores import FAISS
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.llms import OpenAI
 from langchain.chains import ConversationalRetrievalChain
