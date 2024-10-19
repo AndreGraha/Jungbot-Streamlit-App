@@ -1,6 +1,6 @@
-langchain==0.0.312
-faiss-cpu==1.7.4
+streamlit==1.24.1
 sentence-transformers==2.2.2
-streamlit==1.25.0
-openai==0.27.10
+faiss-cpu==1.7.4
+openai==0.27.0
 python-dotenv==1.0.0
+numpy==1.23.5
