@@ -1,4 +1,3 @@
-import fitz  # PyMuPDF for extracting text from the PDF
 from sentence_transformers import SentenceTransformer
 import faiss
 import openai
@@ -7,6 +6,8 @@ import warnings
 import streamlit as st
 import pickle
 import numpy as np
+from dotenv import load_dotenv
+load_dotenv()
 
 # Step 2: Split the text into manageable chunks for embedding
 def split_text_into_chunks(text_data, chunk_size=500):
@@ -34,12 +35,8 @@ def find_similar_chunks(query, index, chunks, top_k=45):
     import numpy as np
     query_embedding = np.array([model.encode(query)]).astype('float32')
 
-    # Pre-allocate arrays for distances and labels (indices)
-    distances = np.empty((query_embedding.shape[0], top_k), dtype='float32')
-    labels = np.empty((query_embedding.shape[0], top_k), dtype='int64')
-
-    # Call search with all three arguments
-    index.search(query_embedding, distances = distances, labels = labels)
+    # Perform the search and get distances and labels
+    distances, labels = index.search(query_embedding, top_k)
 
     # Extract the indices (labels) of the nearest neighbors
     indices = labels[0]
